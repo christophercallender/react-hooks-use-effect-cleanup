@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 function Clock() {
-  const [time, setTime] = useState(new Date());
+   const [time, setTime] = useState(new Date());
 
-  useEffect(() => {
-    setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-  }, []);
+   useEffect(() => {
+      const intervalID = //added to control setInterval
+         setInterval(() => {
+            setTime(new Date());
+         }, 1000);
 
-  return <div>{time.toString()}</div>;
+      //added to prevent memory leak
+      return function cleanup() {
+         clearInterval(intervalID);
+      };
+   }, []);
+
+   return <div>{time.toString()}</div>;
 }
 
 export default Clock;
